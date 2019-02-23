@@ -1,11 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Tap.TestLogger</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>John C Barstow</Authors>
+    <Company>Valocity</Company>
+    <PackageDescription>A test logger for .NET projects that formats results according to the Test Anything Protocol</PackageDescription>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="15.9.0" />
-  </ItemGroup>
-
-</Project>
+  </ItemGroup>
+
+</Project>
