@@ -12,7 +12,8 @@ namespace Tap.TestLogger
         public bool IsOk {get;set;}
         public string Desc {get;set;}
         public string SkipReason {get;set;}
-        public string ErrorOutput {get;set;}
+        public string ErrorMessage {get;set;}
+        public string StackTrace {get;set;}
         public string Format(int testNumber)
         {
             var status = IsOk ? "ok" : "not ok";
@@ -26,7 +27,7 @@ namespace Tap.TestLogger
     }
 
     [FriendlyName("tap")]
-    [ExtensionUri("logger://tap/v12")]
+    [ExtensionUri("logger://tap/v13")]
     public class TapTestLogger: ITestLogger
     {
         private IList<TestResultModel> _results;
@@ -69,7 +70,8 @@ namespace Tap.TestLogger
                 IsOk = result.Outcome != TestOutcome.Failed,
                 Desc = result.TestCase.DisplayName,
                 SkipReason = result.Outcome == TestOutcome.Skipped ? result.Messages[0].Text : null,
-                ErrorOutput = result.ErrorMessage,
+                ErrorMessage = result.ErrorMessage,
+                StackTrace = result.ErrorStackTrace,
             };
             _results.Add(m);
         }
@@ -79,6 +81,7 @@ namespace Tap.TestLogger
         {
             using(var writer = File.CreateText(_logfile))
             {
+                writer.WriteLine("TAP version 13");
                 writer.WriteLine($"1..{_results.Count}");
                 // maybe group by assembly/class (requires waiting for full run)
                 // here we'll capture the plan (1..n)
@@ -87,12 +90,17 @@ namespace Tap.TestLogger
                 {
                     index++;
                     writer.WriteLine(result.Format(index));
-                    if(!string.IsNullOrWhiteSpace(result.ErrorOutput))
+                    if(!string.IsNullOrWhiteSpace(result.ErrorMessage))
                     {
-                        foreach(var l in result.ErrorOutput.Split('\n'))
-                        {
-                            writer.WriteLine($"# {l}");
-                        }
+			    writer.WriteLine("  ---");
+			    writer.WriteLine($"  message: '{result.ErrorMessage}'");
+			    writer.WriteLine($"  severity: fail");
+			    writer.WriteLine($"  data:");
+			    foreach(var l in result.StackTrace.Split('\n'))
+			    {
+				    writer.WriteLine($"  {l.TrimEnd()}");
+			    }
+			    writer.WriteLine("  ...");
                     }
                 }
             }
