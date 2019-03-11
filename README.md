@@ -7,7 +7,7 @@ This logger formats the test results using the [Test Anything Protocol](http://t
 
 ## Packages
 
-Tap.TestLogger https://img.shields.io/nuget/v/Tap.TestLogger.svg
+Tap.TestLogger [![NuGet](https://img.shields.io/nuget/v/Tap.TestLogger.svg)](https://www.nuget.org/packages/Tap.TestLogger/)
 
 ## Usage
 
