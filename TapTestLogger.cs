@@ -92,15 +92,15 @@ namespace Tap.TestLogger
                     writer.WriteLine(result.Format(index));
                     if(!string.IsNullOrWhiteSpace(result.ErrorMessage))
                     {
-			    writer.WriteLine("  ---");
-			    writer.WriteLine($"  message: '{result.ErrorMessage}'");
-			    writer.WriteLine($"  severity: fail");
-			    writer.WriteLine($"  data:");
-			    foreach(var l in result.StackTrace.Split('\n'))
-			    {
-				    writer.WriteLine($"  {l.TrimEnd()}");
-			    }
-			    writer.WriteLine("  ...");
+                        writer.WriteLine("  ---");
+                        writer.WriteLine($"  message: '{result.ErrorMessage}'");
+                        writer.WriteLine($"  severity: fail");
+                        writer.WriteLine($"  data:");
+                        foreach(var l in result.StackTrace.Split('\n'))
+                        {
+                            writer.WriteLine($"  {l.TrimEnd()}");
+                        }
+                        writer.WriteLine("  ...");
                     }
                 }
             }
